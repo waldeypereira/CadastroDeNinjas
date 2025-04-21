@@ -11,10 +11,17 @@ public class NinjaModel {
     @Id
     // Numeros sequenciais
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+<<<<<<< HEAD
     Long id;
     String nome;
     String email;
     int idade;
+=======
+    private Long id;
+    private String nome;
+    private String email;
+    private int idade;
+>>>>>>> 3e655cc (entity class created in database from NinjaModel)
 
     // No args constructor
     public NinjaModel() {

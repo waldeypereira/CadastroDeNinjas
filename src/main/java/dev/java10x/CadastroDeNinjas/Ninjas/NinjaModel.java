@@ -23,6 +23,10 @@ public class NinjaModel {
 
     private Long id;
     private String nome;
+
+    // Nao pode ter dados repetidos anottation column
+
+    @Column(unique = true)
     private String email;
     private int idade;
 
@@ -31,6 +35,4 @@ public class NinjaModel {
     // Criar uma nova coluna para a chave estrangeira
     @JoinColumn(name = "missoes_id") // Foreign Key ou chave estrangeira para conectar duas tabelas diferentes
     private MissoesModel missoes;
-
-
 }

@@ -32,6 +32,26 @@ public class NinjaService {
         return ninjaRepository.save(ninja);
     }
 
+    // Deletar o ninja
+
+    public void deletarNinjaPorId(Long id) {
+        if (!ninjaRepository.existsById(id)) {
+            throw new RuntimeException("Ninja com ID " + id + " não encontrado.");
+        }
+        ninjaRepository.deleteById(id);
+    }
+
+    // Alterar o ninja
+
+    public NinjaModel alterarNinjaPorId(Long id, NinjaModel ninja) {
+        if (!ninjaRepository.existsById(id)) {
+            throw new RuntimeException("Ninja com ID " + id + " não encontrado.");
+        }
+        ninja.setId(id);
+        return ninjaRepository.save(ninja);
+    }
+
+
 
 
 

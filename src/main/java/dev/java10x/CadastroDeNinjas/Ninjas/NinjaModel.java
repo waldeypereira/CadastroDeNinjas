@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-// Transforma uma classe em uma entidade do BD
+// Transforma uma classe numa entidade do BD
 // Java Persistence API - JPA
 @Entity
 @Table(name = "tb_cadastro")
@@ -26,7 +26,7 @@ public class NinjaModel {
     @Column(name = "nome")
     private String nome;
 
-    // Nao pode ter dados repetidos anottation column
+    // Não pode ter dados repetidos anottation column
 
 
     @Column(name = "email", unique = true)
@@ -38,9 +38,12 @@ public class NinjaModel {
     @Column(name = "img_url")
     private String imgUrl;
 
+    @Column(name = "rank")
+    private String rank;
+
     // @ManyToOne Um ninja tem uma única missao
     @ManyToOne
-    // Criar uma nova coluna para a chave estrangeira
+    // Criar uma coluna para a chave estrangeira
     @JoinColumn(name = "missoes_id") // Foreign Key ou chave estrangeira para conectar duas tabelas diferentes
     private MissoesModel missoes;
 }

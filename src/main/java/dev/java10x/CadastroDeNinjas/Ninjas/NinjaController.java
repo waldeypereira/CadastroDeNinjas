@@ -50,7 +50,7 @@ public class NinjaController {
     // Atualizar Ninja (Update)
     @PatchMapping("/atualizar/{id}")
     public NinjaModel atualizarNinja(@PathVariable Long id, @RequestBody NinjaModel ninja) {
-        return ninjaService.alterarNinjaPorId(id, ninja);
+        return ninjaService.atualizarNinjaPorId(id, ninja);
     }
 
 

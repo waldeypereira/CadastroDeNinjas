@@ -41,9 +41,19 @@ public class NinjaService {
         ninjaRepository.deleteById(id);
     }
 
-    // Alterar o ninja
+//    // Alterar o ninja
+//
+//    public NinjaModel alterarNinjaPorId(Long id, NinjaModel ninja) {
+//        if (!ninjaRepository.existsById(id)) {
+//            throw new RuntimeException("Ninja com ID " + id + " não encontrado.");
+//        }
+//        ninja.setId(id);
+//        return ninjaRepository.save(ninja);
+//    }
 
-    public NinjaModel alterarNinjaPorId(Long id, NinjaModel ninja) {
+    // Atualizar o ninja
+
+    public NinjaModel atualizarNinjaPorId(Long id, NinjaModel ninja) {
         if (!ninjaRepository.existsById(id)) {
             throw new RuntimeException("Ninja com ID " + id + " não encontrado.");
         }

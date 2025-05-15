@@ -47,13 +47,17 @@ public class NinjaController {
         ninjaService.deletarNinjaPorId(id);
         return "Ninja com ID " + id + " foi deletado com sucesso.";
     }
-
-    // Alterar ninja
-
-    @PutMapping("/alterar/{id}")
-    public NinjaModel alterarNinjaPorId(@PathVariable Long id, @RequestBody NinjaModel ninja) {
+    // Atualizar Ninja (Update)
+    @PatchMapping("/atualizar/{id}")
+    public NinjaModel atualizarNinja(@PathVariable Long id, @RequestBody NinjaModel ninja) {
         return ninjaService.alterarNinjaPorId(id, ninja);
     }
+
+
+//    @PutMapping("/alterar/{id}")
+//    public NinjaModel alterarNinjaPorId(@PathVariable Long id, @RequestBody NinjaModel ninja) {
+//        return ninjaService.alterarNinjaPorId(id, ninja);
+//    }
 
 
 }

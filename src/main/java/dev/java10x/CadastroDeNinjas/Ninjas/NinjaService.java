@@ -28,7 +28,10 @@ public class NinjaService {
     // Listar ninja por ID
     public Optional<NinjaDTO> listarNinjasPorId(Long id) {
         return ninjaRepository.findById(id)
-                .map(ninjaMapper::map);
+                .map(ninjaMapper::map)
+                .or(() -> {;
+                    throw new RuntimeException("Ninja com ID " + id + " não encontrado.");
+                });
     }
 
     // Criar ninja
@@ -56,5 +59,4 @@ public class NinjaService {
         ninjaModel = ninjaRepository.save(ninjaModel);
         return ninjaMapper.map(ninjaModel);
     }
-
 }

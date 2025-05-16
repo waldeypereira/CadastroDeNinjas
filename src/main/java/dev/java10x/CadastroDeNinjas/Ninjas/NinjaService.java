@@ -1,39 +1,47 @@
 package dev.java10x.CadastroDeNinjas.Ninjas;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class NinjaService {
 
     private final NinjaRepository ninjaRepository;
+    private final NinjaMapper ninjaMapper;
 
-    public NinjaService(NinjaRepository ninjaRepository) {
+    public NinjaService(NinjaRepository ninjaRepository, NinjaMapper ninjaMapper) {
         this.ninjaRepository = ninjaRepository;
+        this.ninjaMapper = ninjaMapper; // Corrigido: usar o que foi injetado
     }
 
-    // Listar todos os meus ninjas
-
-    public List<NinjaModel> listarNinjas() {
-        return ninjaRepository.findAll();
+    // Listar todos os ninjas
+    public List<NinjaDTO> listarNinjas() {
+        return ninjaRepository.findAll()
+                .stream()
+                .map(ninjaMapper::map)
+                .collect(Collectors.toList());
     }
 
-    // Listar todos os meus ninjas por ID
-
-    public Optional<NinjaModel> listarNinjasPorId(Long id) {
-        return ninjaRepository.findById(id);
+    // Listar ninja por ID
+    public Optional<NinjaDTO> listarNinjasPorId(Long id) {
+        return ninjaRepository.findById(id)
+                .map(ninjaMapper::map)
+                .or(() -> {;
+                    throw new RuntimeException("Ninja com ID " + id + " não encontrado.");
+                });
     }
 
     // Criar ninja
-    public NinjaModel criarNinja(NinjaModel ninja) {
-        return ninjaRepository.save(ninja);
+    public NinjaDTO criarNinja(NinjaDTO ninjaDTO) {
+        NinjaModel ninjaModel = ninjaMapper.map(ninjaDTO);
+        ninjaModel = ninjaRepository.save(ninjaModel);
+        return ninjaMapper.map(ninjaModel);
     }
 
-    // Deletar o ninja
-
+    // Deletar ninja
     public void deletarNinjaPorId(Long id) {
         if (!ninjaRepository.existsById(id)) {
             throw new RuntimeException("Ninja com ID " + id + " não encontrado.");
@@ -41,25 +49,14 @@ public class NinjaService {
         ninjaRepository.deleteById(id);
     }
 
-//    // Alterar o ninja
-//
-//    public NinjaModel alterarNinjaPorId(Long id, NinjaModel ninja) {
-//        if (!ninjaRepository.existsById(id)) {
-//            throw new RuntimeException("Ninja com ID " + id + " não encontrado.");
-//        }
-//        ninja.setId(id);
-//        return ninjaRepository.save(ninja);
-//    }
-
-    // Atualizar o ninja
-
-    public NinjaModel atualizarNinjaPorId(Long id, NinjaModel ninja) {
+    // Atualizar ninja
+    public NinjaDTO atualizarNinjaPorId(Long id, NinjaDTO ninjaDTO) {
         if (!ninjaRepository.existsById(id)) {
             throw new RuntimeException("Ninja com ID " + id + " não encontrado.");
         }
-        ninja.setId(id);
-        return ninjaRepository.save(ninja);
+        NinjaModel ninjaModel = ninjaMapper.map(ninjaDTO);
+        ninjaModel.setId(id);
+        ninjaModel = ninjaRepository.save(ninjaModel);
+        return ninjaMapper.map(ninjaModel);
     }
-
-
 }

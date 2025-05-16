@@ -15,49 +15,39 @@ public class NinjaController {
         this.ninjaService = ninjaService;
     }
 
-    // Pegar informacoes
     @GetMapping("/boasvindas")
     public String boasVindas() {
         return "Essa é minha primeira mensagem nessa rota!";
     }
 
-
     // Criar ninja (Create)
     @PostMapping("/criar")
-    public NinjaModel criar(@RequestBody NinjaModel ninja) {
+    public NinjaDTO criar(@RequestBody NinjaDTO ninja) {
         return ninjaService.criarNinja(ninja);
     }
 
-    // Mostrar Ninja por ID (Read)
+    // Listar todos os ninjas (Read All)
     @GetMapping("/listar")
-    public List<NinjaModel> listarNinjas() {
+    public List<NinjaDTO> listarNinjas() {
         return ninjaService.listarNinjas();
     }
 
-    // Mostrar todos os ninjas (Read)
+    // Listar ninja por ID (Read One)
     @GetMapping("/listar/{id}")
-    public Optional<NinjaModel> listarNinjasPorId(@PathVariable Long id) {
+    public Optional<NinjaDTO> listarNinjasPorId(@PathVariable Long id) {
         return ninjaService.listarNinjasPorId(id);
     }
 
-
-    // Deletar Ninja (Delete)
+    // Deletar ninja (Delete)
     @DeleteMapping("/deletar/{id}")
     public String deletar(@PathVariable Long id) {
         ninjaService.deletarNinjaPorId(id);
         return "Ninja com ID " + id + " foi deletado com sucesso.";
     }
-    // Atualizar Ninja (Update)
-    @PatchMapping("/atualizar/{id}")
-    public NinjaModel atualizarNinja(@PathVariable Long id, @RequestBody NinjaModel ninja) {
+
+    // Atualizar ninja (Update)
+    @PutMapping("/atualizar/{id}")
+    public NinjaDTO atualizarNinja(@PathVariable Long id, @RequestBody NinjaDTO ninja) {
         return ninjaService.atualizarNinjaPorId(id, ninja);
     }
-
-
-//    @PutMapping("/alterar/{id}")
-//    public NinjaModel alterarNinjaPorId(@PathVariable Long id, @RequestBody NinjaModel ninja) {
-//        return ninjaService.alterarNinjaPorId(id, ninja);
-//    }
-
-
 }

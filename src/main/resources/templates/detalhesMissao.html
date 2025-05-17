@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalhes da Missão</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .info {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        a {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Detalhes da Missão</h1>
+
+    <div class="info"><strong>ID:</strong> <span th:text="${missao.id}"></span></div>
+    <div class="info"><strong>Nome:</strong> <span th:text="${missao.nome}"></span></div>
+    <div class="info"><strong>Dificuldade:</strong> <span th:text="${missao.dificuldade}"></span></div>
+
+    <a th:href="@{/missoes/ui/listar}">⬅️ Voltar</a>
+</div>
+</body>
+</html>

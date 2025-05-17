@@ -2,8 +2,7 @@
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Lista de Ninjas</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Lista de Missões</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -53,11 +52,6 @@
             color: #333;
         }
 
-        img {
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
         a {
             margin: 0 5px;
             text-decoration: none;
@@ -77,10 +71,10 @@
 </head>
 <body>
 <div class="container">
-    <h1>Lista de Ninjas</h1>
+    <h1>Lista de Missões</h1>
 
     <p style="text-align: center;">
-        <a th:href="@{/missoes/ui/listar}">🗺️ Ver Lista de Missões</a>
+        <a th:href="@{/ninjas/ui/listar}">👥 Ver Lista de Ninjas</a>
     </p>
 
     <p class="message" th:if="${mensagem}" th:text="${mensagem}"></p>
@@ -89,42 +83,28 @@
     <table>
         <thead>
         <tr>
-            <th>Imagem</th>
             <th>ID</th>
             <th>Nome</th>
-            <th>Idade</th>
-            <th>Email</th>
-            <th>Rank</th>
-            <th>Missões</th>
+            <th>Dificuldade</th>
             <th>Ações</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="ninja : ${ninjas}">
-            <td><img th:src="${ninja.imgUrl}" width="60" height="60" alt="Ninja"/></td>
-            <td th:text="${ninja.id}"></td>
-            <td th:text="${ninja.nome}"></td>
-            <td th:text="${ninja.idade}"></td>
-            <td th:text="${ninja.email}"></td>
-            <td th:text="${ninja.rank}"></td>
+        <tr th:each="missao : ${missoes}">
+            <td th:text="${missao.id}"></td>
+            <td th:text="${missao.nome}"></td>
+            <td th:text="${missao.dificuldade}"></td>
             <td>
-                <ul th:if="${ninja.missoes != null}">
-                    <li th:text="${ninja.missoes.nome + ' (' + ninja.missoes.dificuldade + ')'}"></li>
-                </ul>
-                <span th:if="${ninja.missoes == null}">Nenhuma missão</span>
-            </td>
-            <td>
-                <a th:href="@{/ninjas/ui/listar/{id}(id=${ninja.id})}">👁️ Detalhes</a>
-                <a th:href="@{/ninjas/ui/atualizar/{id}(id=${ninja.id})}">✏️ Editar</a>
-                <a th:href="@{/ninjas/ui/deletar/{id}(id=${ninja.id})}"
-                   onclick="return confirm('Tem certeza que deseja deletar este ninja?');">🗑️ Deletar</a>
+                <a th:href="@{/missoes/ui/listar/{id}(id=${missao.id})}">👁️ Detalhes</a>
+                <a th:href="@{/missoes/ui/atualizar/{id}(id=${missao.id})}">✏️ Editar</a>
+                <a th:href="@{/missoes/ui/deletar/{id}(id=${missao.id})}" onclick="return confirm('Tem certeza que deseja deletar esta missão?');">🗑️ Deletar</a>
             </td>
         </tr>
         </tbody>
     </table>
 
     <p class="create-link">
-        <a th:href="@{/ninjas/ui/criar}">➕ Criar novo ninja</a>
+        <a th:href="@{/missoes/ui/criar}">➕ Criar nova missão</a>
     </p>
 </div>
 </body>

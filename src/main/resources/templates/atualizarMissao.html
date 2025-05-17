@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Atualizar Missão</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 10px;
+        }
+
+        input {
+            padding: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Atualizar Missão</h1>
+
+    <form th:action="@{/missoes/ui/atualizar/{id}(id=${missao.id})}" th:object="${missao}" method="post">
+        <label>Nome:
+            <input type="text" th:field="*{nome}" required/>
+        </label>
+        <label>Dificuldade:
+            <input type="text" th:field="*{dificuldade}" required/>
+        </label>
+        <button type="submit">Atualizar</button>
+    </form>
+
+    <a th:href="@{/missoes/ui/listar}">⬅️ Voltar</a>
+</div>
+</body>
+</html>

@@ -38,11 +38,8 @@ public class NinjaController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Nenhum ninja encontrado.");
         }
-
         return ResponseEntity.ok(ninjas);
     }
-
-
 
     // Listar ninja por ID
     @GetMapping("/listar/{id}")

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalhes do Ninja</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .ninja-card {
+            max-width: 400px;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .ninja-img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+<h1>Detalhes do Ninja</h1>
+
+<div class="ninja-card" th:if="${ninja != null}">
+    <img class="ninja-img" th:src="${ninja.imgUrl}" alt="Imagem do Ninja"/>
+    <h2 th:text="${ninja.nome}">Nome</h2>
+    <p><strong>Email:</strong> <span th:text="${ninja.email}"></span></p>
+    <p><strong>Idade:</strong> <span th:text="${ninja.idade}"></span></p>
+    <p><strong>Rank:</strong> <span th:text="${ninja.rank}"></span></p>
+    <p><strong>Missão:</strong>
+        <span th:text="${ninja.missoes != null ? ninja.missoes.nome : 'Sem missão atribuída'}"></span>
+    </p>
+
+    <div style="margin-top: 20px;">
+        <a th:href="@{/ninjas/ui/listar}">🔙 Voltar para a lista</a> |
+        <a th:href="@{/ninjas/ui/atualizar/{id}(id=${ninja.id})}">✏️ Editar</a> |
+        <a th:href="@{/ninjas/ui/deletar/{id}(id=${ninja.id})}"
+           onclick="return confirm('Tem certeza que deseja deletar este ninja?');">🗑️ Deletar</a>
+    </div>
+</div>
+</body>
+</html>

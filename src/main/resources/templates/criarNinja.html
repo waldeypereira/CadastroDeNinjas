@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Criar Ninja</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .ninja-form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background-color: #f9f9f9;
+        }
+
+        .ninja-form h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .ninja-form label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .ninja-form input[type="text"],
+        .ninja-form input[type="email"],
+        .ninja-form input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 4px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .ninja-form button {
+            margin-top: 15px;
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .ninja-form button:hover {
+            background-color: #0056b3;
+        }
+
+        .ninja-form a {
+            display: block;
+            margin-top: 15px;
+            text-align: center;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .ninja-form a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="ninja-form">
+    <h1>Criar Ninja</h1>
+    <form th:action="@{/ninjas/ui/criar}" th:object="${ninja}" method="post">
+        <label>Nome:
+            <input type="text" th:field="*{nome}" required/>
+        </label>
+
+        <label>Idade:
+            <input type="number" th:field="*{idade}" required/>
+        </label>
+
+        <label>Email:
+            <input type="email" th:field="*{email}" required/>
+        </label>
+
+        <label>Imagem URL:
+            <input type="text" th:field="*{imgUrl}"/>
+        </label>
+
+        <label>Rank:
+            <input type="text" th:field="*{rank}"/>
+        </label>
+
+        <button type="submit">Salvar</button>
+    </form>
+
+    <a th:href="@{/ninjas/ui/listar}">🔙 Voltar para a lista</a>
+</div>
+</body>
+</html>

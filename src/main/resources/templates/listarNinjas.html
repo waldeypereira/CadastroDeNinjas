@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Ninjas</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .message {
+            text-align: center;
+            font-weight: bold;
+            color: green;
+            margin-bottom: 10px;
+        }
+
+        .error {
+            text-align: center;
+            font-weight: bold;
+            color: red;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        img {
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        a {
+            margin: 0 5px;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .create-link {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Lista de Ninjas</h1>
+
+    <p class="message" th:if="${mensagem}" th:text="${mensagem}"></p>
+    <p class="error" th:if="${erro}" th:text="${erro}"></p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Imagem</th>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Idade</th>
+            <th>Email</th>
+            <th>Rank</th>
+            <th>Missões</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ninja : ${ninjas}">
+            <td><img th:src="${ninja.imgUrl}" width="60" height="60" alt="Ninja"/></td>
+            <td th:text="${ninja.id}"></td>
+            <td th:text="${ninja.nome}"></td>
+            <td th:text="${ninja.idade}"></td>
+            <td th:text="${ninja.email}"></td>
+            <td th:text="${ninja.rank}"></td>
+            <td>
+                <ul th:if="${ninja.missoes != null}">
+                    <li th:text="${ninja.missoes.nome + ' (' + ninja.missoes.dificuldade + ')'}"></li>
+                </ul>
+                <span th:if="${ninja.missoes == null}">Nenhuma missão</span>
+            </td>
+            <td>
+                <a th:href="@{/ninjas/ui/listar/{id}(id=${ninja.id})}">👁️ Detalhes</a>
+                <a th:href="@{/ninjas/ui/atualizar/{id}(id=${ninja.id})}">✏️ Editar</a>
+                <a th:href="@{/ninjas/ui/deletar/{id}(id=${ninja.id})}"
+                   onclick="return confirm('Tem certeza que deseja deletar este ninja?');">🗑️ Deletar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p class="create-link">
+        <a th:href="@{/ninjas/ui/criar}">➕ Criar novo ninja</a>
+    </p>
+</div>
+</body>
+</html>

@@ -18,34 +18,49 @@ import lombok.ToString;
 @Data
 @ToString(exclude = "missoes")
 public class NinjaModel {
-
+    /**
+     * Unique identifier for the Ninja entity.
+     * Automatically generated using database identity strategy.
+     */
     @Id
-    // ID por Numeros sequenciais
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
 
+    /**
+     * Name of the ninja.
+     */
     @Column(name = "nome")
     private String nome;
 
-    // Não pode ter dados repetidos anottation column
-
-
+    /**
+     * Unique email address of the ninja.
+     * Must be unique across all ninja records.
+     */
     @Column(name = "email", unique = true)
     private String email;
 
+    /**
+     * Age of the ninja.
+     */
     @Column(name = "idade")
     private int idade;
 
+    /**
+     * URL of the ninja's profile image.
+     */
     @Column(name = "img_url")
     private String imgUrl;
 
+    /**
+     * Rank or classification of the ninja.
+     */
     @Column(name = "rank")
     private String rank;
 
-    // @ManyToOne Um ninja tem uma única missao
+    /**
+     * Mission associated with the ninja.
+     * Represents a many-to-one relationship between ninjas and missions.
+     */
     @ManyToOne
-    // Criar uma coluna para a chave estrangeira
-    @JoinColumn(name = "missoes_id") // Foreign Key ou chave estrangeira para conectar duas tabelas diferentes
-    private MissoesModel missoes;
-}
+    @JoinColumn(name = "missoes_id")
+    private MissoesModel missoes;}

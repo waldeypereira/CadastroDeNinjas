@@ -2,76 +2,292 @@
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Ninjas</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <style>
+        :root {
+            --primary-color: #3742fa;
+            --secondary-color: #ff6b6b;
+            --accent-color: #1e90ff;
+            --bg-color: #f9f9f9;
+            --text-color: #333;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
         }
 
         .container {
-            max-width: 1000px;
-            margin: 30px auto;
-            padding: 20px;
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 25px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
         }
 
         h1 {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            color: var(--primary-color);
+            font-size: 2.2rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+
+        .message, .error {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: var(--border-radius);
         }
 
         .message {
-            text-align: center;
-            font-weight: bold;
-            color: green;
-            margin-bottom: 10px;
+            color: #2ecc71;
+            background-color: rgba(46, 204, 113, 0.1);
         }
 
         .error {
-            text-align: center;
-            font-weight: bold;
-            color: red;
-            margin-bottom: 10px;
+            color: #e74c3c;
+            background-color: rgba(231, 76, 60, 0.1);
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .nav-link {
+            padding: 8px 16px;
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background-color: #1a75d2;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+
+            text-decoration: none; /* remove underline no hover */
         }
 
         table {
             width: 100%;
-            border-collapse: collapse;
-            border-radius: 8px;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: var(--border-radius);
             overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: var(--box-shadow);
+            margin: 20px 0;
         }
 
         th, td {
-            padding: 12px;
+            padding: 15px 12px;
             text-align: center;
-            border-bottom: 1px solid #ddd;
         }
 
         th {
-            background-color: #f2f2f2;
-            color: #333;
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
         }
 
-        img {
+        tr:nth-child(odd) {
+            background-color: rgba(0,0,0,0.02);
+        }
+
+        tr:hover {
+            background-color: rgba(0,0,0,0.05);
+        }
+
+        td {
+            border-bottom: 1px solid #eee;
+        }
+
+        img.ninja-img {
             border-radius: 50%;
             object-fit: cover;
+            width: 60px;
+            height: 60px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border: 2px solid white;
+            transition: transform 0.3s ease;
         }
 
-        a {
-            margin: 0 5px;
+        img.ninja-img:hover {
+            transform: scale(1.1);
+        }
+
+        .badge, .missao-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .missao-badge {
+            margin: 2px;
+            background-color: rgba(30, 144, 255, 0.1);
+            color: var(--accent-color);
+        }
+
+        .sem-missao {
+            color: #999;
+            font-style: italic;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 12px;
+            border-radius: var(--border-radius);
             text-decoration: none;
-            color: #007bff;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
         }
 
-        a:hover {
-            text-decoration: underline;
+        .btn-view {
+            background-color: rgba(52, 152, 219, 0.1);
+            color: #3498db;
+        }
+
+        .btn-edit {
+            background-color: rgba(241, 196, 15, 0.1);
+            color: #f1c40f;
+        }
+
+        .btn-delete {
+            background-color: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(0.95);
+
+            text-decoration: none; /* remove underline no hover */
         }
 
         .create-link {
-            display: block;
-            margin-top: 20px;
-            text-align: center;
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .btn-create {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .btn-create:hover {
+            background-color: #2c36d9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+
+            text-decoration: none; /* remove underline no hover */
+        }
+
+        .rank-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .rank-genin { background-color: rgba(46, 204, 113, 0.1); color: #27ae60; }
+        .rank-chunin { background-color: rgba(52, 152, 219, 0.1); color: #2980b9; }
+        .rank-jonin { background-color: rgba(155, 89, 182, 0.1); color: #8e44ad; }
+        .rank-anbu { background-color: rgba(44, 62, 80, 0.1); color: #2c3e50; }
+        .rank-kage { background-color: rgba(243, 156, 18, 0.1); color: #f39c12; }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+            thead {
+                display: none;
+            }
+
+            tr {
+                margin-bottom: 15px;
+                border: 1px solid #ddd;
+                border-radius: var(--border-radius);
+                padding: 10px;
+                background-color: white;
+                box-shadow: var(--box-shadow);
+            }
+
+            td {
+                text-align: left;
+                padding-left: 50%;
+                position: relative;
+                border: none;
+                border-bottom: 1px solid #eee;
+            }
+
+            td::before {
+                position: absolute;
+                top: 12px;
+                left: 15px;
+                width: 45%;
+                white-space: nowrap;
+                font-weight: bold;
+                color: var(--primary-color);
+                content: attr(data-label);
+            }
+
+            .actions {
+                justify-content: flex-start;
+            }
         }
     </style>
 </head>
@@ -79,9 +295,9 @@
 <div class="container">
     <h1>Lista de Ninjas</h1>
 
-    <p style="text-align: center;">
-        <a th:href="@{/missoes/ui/listar}">🗺️ Ver Lista de Missões</a>
-    </p>
+    <div class="navigation">
+        <a class="nav-link" th:href="@{/missoes/ui/listar}">🗺️ Ver Lista de Missões</a>
+    </div>
 
     <p class="message" th:if="${mensagem}" th:text="${mensagem}"></p>
     <p class="error" th:if="${erro}" th:text="${erro}"></p>
@@ -101,31 +317,38 @@
         </thead>
         <tbody>
         <tr th:each="ninja : ${ninjas}">
-            <td><img th:src="${ninja.imgUrl}" width="60" height="60" alt="Ninja"/></td>
-            <td th:text="${ninja.id}"></td>
-            <td th:text="${ninja.nome}"></td>
-            <td th:text="${ninja.idade}"></td>
-            <td th:text="${ninja.email}"></td>
-            <td th:text="${ninja.rank}"></td>
-            <td>
-                <ul th:if="${ninja.missoes != null}">
-                    <li th:text="${ninja.missoes.nome + ' (' + ninja.missoes.dificuldade + ')'}"></li>
-                </ul>
-                <span th:if="${ninja.missoes == null}">Nenhuma missão</span>
+            <td data-label="Imagem"><img class="ninja-img" th:src="${ninja.imgUrl}" alt="Ninja"/></td>
+            <td data-label="ID" th:text="${ninja.id}"></td>
+            <td data-label="Nome" th:text="${ninja.nome}"></td>
+            <td data-label="Idade" th:text="${ninja.idade}"></td>
+            <td data-label="Email" th:text="${ninja.email}"></td>
+            <td data-label="Rank">
+                <span th:class="'rank-badge rank-' + ${#strings.toLowerCase(ninja.rank)}"
+                      th:text="${ninja.rank}"></span>
             </td>
-            <td>
-                <a th:href="@{/ninjas/ui/listar/{id}(id=${ninja.id})}">👁️ Detalhes</a>
-                <a th:href="@{/ninjas/ui/atualizar/{id}(id=${ninja.id})}">✏️ Editar</a>
-                <a th:href="@{/ninjas/ui/deletar/{id}(id=${ninja.id})}"
+            <td data-label="Missões">
+                <div th:if="${ninja.missoes != null && !#lists.isEmpty(ninja.missoes)}">
+                    <span class="missao-badge"
+                          th:each="missao : ${ninja.missoes}"
+                          th:text="${missao.nome + ' (' + missao.dificuldade + ')'}"></span>
+                </div>
+                <span class="sem-missao" th:if="${ninja.missoes == null || #lists.isEmpty(ninja.missoes)}">
+                    Nenhuma missão
+                </span>
+            </td>
+            <td data-label="Ações" class="actions">
+                <a class="btn btn-view" th:href="@{/ninjas/ui/listar/{id}(id=${ninja.id})}">👁️ Ver</a>
+                <a class="btn btn-edit" th:href="@{/ninjas/ui/atualizar/{id}(id=${ninja.id})}">✏️ Editar</a>
+                <a class="btn btn-delete" th:href="@{/ninjas/ui/deletar/{id}(id=${ninja.id})}"
                    onclick="return confirm('Tem certeza que deseja deletar este ninja?');">🗑️ Deletar</a>
             </td>
         </tr>
         </tbody>
     </table>
 
-    <p class="create-link">
-        <a th:href="@{/ninjas/ui/criar}">➕ Criar novo ninja</a>
-    </p>
+    <div class="create-link">
+        <a class="btn-create" th:href="@{/ninjas/ui/criar}">➕ Criar novo ninja</a>
+    </div>
 </div>
 </body>
 </html>
